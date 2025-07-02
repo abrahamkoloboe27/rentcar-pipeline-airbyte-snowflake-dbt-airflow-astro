@@ -19,7 +19,6 @@ with DAG(
     description='Test des connexions Airbyte et Snowflake',
     default_args=default_args,
     start_date=datetime(2025, 7, 2),
-    schedule_interval=None,
     catchup=False,
     tags=['airbyte', 'test'],
 ) as dag:
