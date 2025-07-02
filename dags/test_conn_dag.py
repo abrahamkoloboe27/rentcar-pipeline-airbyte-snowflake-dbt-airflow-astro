@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
 from airflow.providers.airbyte.hooks.airbyte import AirbyteHook
 from airflow.operators.python import PythonOperator
 from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
@@ -22,7 +21,7 @@ with DAG(
     start_date=datetime(2025, 7, 2),
     schedule_interval=None,
     catchup=False,
-    tags=['airbyte', 'snowflake', 'test'],
+    tags=['airbyte', 'test'],
 ) as dag:
 
     test_airbyte_conn = PythonOperator(
@@ -37,10 +36,5 @@ with DAG(
         asynchronous=False,
     )
 
-    test_snowflake_conn = SnowflakeOperator(
-        task_id='test_snowflake_connection',
-        snowflake_conn_id='rentcar_snowflake_conn',
-        sql='SELECT 1;',
-    )
 
-    test_airbyte_conn >> trigger_airbyte >> test_snowflake_conn
+    test_airbyte_conn >> trigger_airbyte 
