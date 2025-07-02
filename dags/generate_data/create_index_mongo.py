@@ -8,7 +8,7 @@ from pymongo import MongoClient, ASCENDING, DESCENDING, GEOSPHERE
 # -------------- LOAD ENV --------------
 #load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/ride_share")
-DB_NAME = os.getenv("DB_NAME", None)  # si tu veux un nom explicite, sinon on prend la DB dans URI
+DB_NAME = os.getenv("DB_NAME", None)  
 
 # -------------- LOGGING SETUP --------------
 logging.basicConfig(
