@@ -63,7 +63,6 @@ with DAG(
     task_check_env = PythonOperator(
         task_id='check_environment_variables',
         python_callable=check_env_vars,
-        provide_context=True,
     )
 
     task_check_env
