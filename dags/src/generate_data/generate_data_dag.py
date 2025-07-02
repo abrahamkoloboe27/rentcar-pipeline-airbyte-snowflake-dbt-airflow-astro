@@ -1,3 +1,14 @@
+import os 
+import sys
+import logging
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+logger = logging.getLogger(__name__)
+
+logging.basicConfig(level=logging.INFO)
+
+logging.info(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from create_index_mongo import generate_index
 from create_data_mongo import generate_data_all
 from datetime import timedelta, datetime
