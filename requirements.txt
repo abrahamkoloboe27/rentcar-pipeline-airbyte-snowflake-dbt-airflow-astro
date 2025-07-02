@@ -5,3 +5,7 @@ dbt-postgres
 dbt-snowflake
 apache-airflow-providers-snowflake
 apache-airflow-providers-airbyte
+faker
+pymongo
+pydantic
+python-dotenv

@@ -4,14 +4,15 @@ import random
 from datetime import datetime, timedelta
 from typing import List
 
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
+
 from faker import Faker
 from pydantic import BaseModel
 from pymongo import MongoClient
-from models_mongo import *
+from .models_mongo import *
 
 # -------------------- LOAD ENV --------------------
-load_dotenv()
+#load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017/ride_share")
 BATCH_SIZE = int(os.getenv("BATCH_SIZE", 1000))
 NB_COUNTRIES = int(os.getenv("NB_COUNTRIES", 5))
@@ -75,7 +76,7 @@ def generate_countries() -> List[Country]:
     return [Country(**c) for c in template]
 
 # -------------------- MAIN SEED --------------------
-def main():
+def generate_data_all():
     # Drop existing
     for col in ["countries","users","drivers","vehicles","trips","ratings","maintenance"]:
         db.drop_collection(col)

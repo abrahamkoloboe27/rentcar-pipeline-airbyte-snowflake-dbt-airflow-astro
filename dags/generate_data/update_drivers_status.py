@@ -2,17 +2,17 @@ import os
 import random
 from datetime import datetime, timedelta
 from pymongo import MongoClient, UpdateOne
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Charger les variables d'environnement (.env)
-load_dotenv()
+#load_dotenv()
 MONGO_URI = os.getenv("MONGODB_URI")
 DB_NAME = os.getenv("DB_NAME", "ride_share_v1")
 
 
 
 client = MongoClient(MONGO_URI)
-db = client["ride_share_v1"]
+db = client[DB_NAME]
 
 
 STATUSES = ["active", "inactive", "suspended", "banned"]
