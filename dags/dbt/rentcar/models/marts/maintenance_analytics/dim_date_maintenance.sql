@@ -6,8 +6,12 @@
 }}
 
 WITH dates AS (
-  SELECT DISTINCT maintenance_date AS date
+  SELECT DISTINCT STARTED_DT AS date
   FROM {{ ref('silver_maintenance') }}
+  UNION
+  SELECT DISTINCT ENDED_DT AS date
+  FROM {{ ref('silver_maintenance') }}
+  WHERE ENDED_DT IS NOT NULL
 )
 
 SELECT
@@ -20,4 +24,5 @@ SELECT
   IFF(DAYOFWEEK(date) IN (1,7), TRUE, FALSE)   AS is_weekend,
   TO_VARCHAR(date, 'YYYY-MM-DD')               AS date_iso
 FROM dates
+WHERE date IS NOT NULL
 ORDER BY date

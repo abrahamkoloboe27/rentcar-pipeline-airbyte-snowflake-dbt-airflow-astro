@@ -15,9 +15,9 @@ WITH raw AS (
     registrationdate::timestamp_ntz AS signup_dt,
     countryid
   FROM RIDE_SHARE_V1.users
-  {% if is_incremental() %}
-    WHERE signupDate >= DATEADD(day, -1, CURRENT_TIMESTAMP())
-  {% endif %}
+  -- {% if is_incremental() %}
+  --   WHERE signupDate >= DATEADD(day, -1, CURRENT_TIMESTAMP())
+  -- {% endif %}
 )
 
 SELECT * FROM raw

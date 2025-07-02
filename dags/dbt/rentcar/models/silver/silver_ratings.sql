@@ -10,8 +10,8 @@ WITH src AS (
   SELECT
     _id,
     tripId,
-    raterId,
-    rateeId,
+    -- raterId,
+    toid AS rateeId,
     stars,
     comment,
     created_dt
@@ -21,11 +21,11 @@ WITH src AS (
   {% endif %}
 ),
 
-cleaned AS (
+cleaned_ratings AS (
   SELECT
     _id,
     tripId,
-    raterId,
+    -- raterId,
     rateeId,
     stars,
     comment,
@@ -34,4 +34,4 @@ cleaned AS (
   FROM src
 )
 
-SELECT * FROM cleaned
+SELECT * FROM cleaned_ratings

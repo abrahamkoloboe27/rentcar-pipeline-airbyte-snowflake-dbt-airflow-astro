@@ -15,4 +15,3 @@ select
   latitude,
   longitude
 from raw
-;

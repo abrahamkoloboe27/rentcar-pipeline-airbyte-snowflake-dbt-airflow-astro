@@ -6,12 +6,12 @@
 WITH users AS (
   SELECT
     _id        AS user_key,
-    full_name  AS user_name,
-    email_clean AS email,
-    phone_clean AS phone,
+    fullname  AS user_name,
+    email AS email,
+    phonenumber AS phone,
     signup_dt  AS signup_date,
-    countryId  AS country_key,
-    status     AS user_status
+    countryid  AS country_key
+    -- status     AS user_status
   FROM {{ ref('silver_users') }}
 ),
 countries AS (
@@ -24,7 +24,7 @@ SELECT
   u.email,
   u.phone,
   u.signup_date,
-  u.user_status,
+  --u.user_status,
   c.country_name,
   c.country_iso,
   c.currency_code,

@@ -2,7 +2,7 @@ rentcar:
   outputs:
     dev:
       account: LHUNCRM-BS03889
-      database: RENTCAR
+      database: RIDE_SHARE
       password: 9,e_C#v)$X:%2g5
       role: ACCOUNTADMIN
       schema: RIDE_SHARE_V1

@@ -8,11 +8,12 @@
 SELECT
   _id                      AS vehicle_key,
   driverId                 AS driver_key,   -- link back to dim_driver
-  vehicle_type             AS type,
-  make_clean               AS make,
+  brand_clean              AS make,
   model_clean              AS model,
+  plate_clean              AS plate_number,
   year                     AS model_year,
-  mileageKm                AS current_mileage,
+  mileageKm               AS current_mileage,
   vehicle_age              AS age_years,
-  status                   AS vehicle_status
+  status_clean             AS vehicle_status,
+  acquisitionDate         AS acquisition_date
 FROM {{ ref('silver_vehicles') }}

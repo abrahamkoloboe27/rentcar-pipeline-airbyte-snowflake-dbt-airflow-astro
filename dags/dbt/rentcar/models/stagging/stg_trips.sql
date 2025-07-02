@@ -23,9 +23,9 @@ WITH raw AS (
     serviceDetails,
     currency
   FROM RIDE_SHARE_V1.trips
-  {% if is_incremental() %}
-    WHERE requestedAt >= DATEADD(hour, -1, CURRENT_TIMESTAMP())
-  {% endif %}
+  -- {% if is_incremental() %}
+  --   WHERE requestedAt >= DATEADD(hour, -1, CURRENT_TIMESTAMP())
+  -- {% endif %}
 )
 
 SELECT * FROM raw
