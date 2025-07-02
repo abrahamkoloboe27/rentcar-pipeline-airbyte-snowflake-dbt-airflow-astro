@@ -55,7 +55,7 @@ with DAG(
     description='Vérifie que les variables d\'environnement sont correctement définies',
     default_args=default_args,
     start_date=datetime(2025, 7, 2),
-    schedule_interval='@daily',
+    #schedule_interval='@daily',
     catchup=False,
     tags=['env_check', 'rentcar'],
 ) as dag:
