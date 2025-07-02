@@ -172,7 +172,7 @@ def generate_data_all():
             model=fake.word().title(),
             year=random.randint(2015,2025),
             mileageKm=random.randint(0,100000),
-            type=random.choice(["car", "bike", "tricycle", "van"], weights=[0.4, 0.3, 0.2,0.1], k=1)[0],
+            type=random.choice(["car", "bike", "tricycle", "van"]),
             status=random.choice(["active","maintenance","decommissioned","sold"]),
             driverId=driver_id,
             acquisitionDate=random_datetime(start, now)
