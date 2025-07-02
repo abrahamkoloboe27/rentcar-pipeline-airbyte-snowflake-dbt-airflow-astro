@@ -10,7 +10,7 @@ profile_config = ProfileConfig(
     profile_mapping= SnowflakeUserPasswordProfileMapping(
     conn_id = 'rentcar_snowflake_conn',
     profile_args ={
-        "database": "RENTCAR",
+        "database": "RIDE_SHARE",
         "warehouse": "COMPUTE_WH",
         "schema": "RIDE_SHARE_V1",
         "threads": 2,
