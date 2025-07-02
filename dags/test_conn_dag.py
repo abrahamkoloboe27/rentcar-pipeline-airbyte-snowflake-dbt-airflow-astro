@@ -31,7 +31,7 @@ with DAG(
     trigger_airbyte = AirbyteTriggerSyncOperator(
         task_id='trigger_airbyte_sync',
         airbyte_conn_id='airbyte_conn',
-        connection_id='YOUR_UUID_HERE',
+        connection_id='cefbd9ed-0b69-4e93-b213-aa176f27a1e2',
         asynchronous=False,
     )
 
