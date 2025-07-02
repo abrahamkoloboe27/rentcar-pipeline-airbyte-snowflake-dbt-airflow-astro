@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.airbyte.hooks.airbyte import AirbyteHook
 from airflow.operators.python import PythonOperator
-from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator,AirbyteJobSensor
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
+from airflow.providers.airbyte.sensors.airbyte import AirbyteJobSensor
 from airflow.operators.trigger_dagrun import TriggerDagRunOperator
 
 
