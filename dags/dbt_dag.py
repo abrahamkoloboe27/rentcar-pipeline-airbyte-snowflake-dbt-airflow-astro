@@ -1,8 +1,7 @@
 from cosmos import DbtDag, ProjectConfig, ProfileConfig, ExecutionConfig
 from cosmos.profiles import SnowflakeUserPasswordProfileMapping
 import os 
-from datetime import datetime
-
+from datetime import datetime, timedelta
 
 profile_config = ProfileConfig(
     profile_name="rentcar",
@@ -29,7 +28,7 @@ my_cosmos_dag = DbtDag(
         dbt_executable_path=f"{os.environ['AIRFLOW_HOME']}/dbt_venv/bin/dbt",
     ),
     # normal dag parameters
-    schedule="@daily",
+    schedule="0 1 * * *",
     start_date=datetime(2023, 1, 1),
     catchup=False,
     dag_id="dbt_rentcar",
