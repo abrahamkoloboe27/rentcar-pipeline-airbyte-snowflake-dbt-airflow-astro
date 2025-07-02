@@ -4,8 +4,8 @@ import os
 # Add the parent directory to Python path to find generate_data module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from generate_data.create_index_mongo import generate_index
-from generate_data.create_data_mongo import generate_data_all
+from .generate_data.create_index_mongo import generate_index
+from .generate_data.create_data_mongo import generate_data_all
 from datetime import timedelta, datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
