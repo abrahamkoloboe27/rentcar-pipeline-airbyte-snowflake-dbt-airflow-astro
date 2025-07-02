@@ -1,6 +1,6 @@
 {{ config(
-    materialized='incremental',
-    unique_key='_id',
+    materialized='table',
+    unique_key='city_id',
     schema = 'stg'
 ) }}
 

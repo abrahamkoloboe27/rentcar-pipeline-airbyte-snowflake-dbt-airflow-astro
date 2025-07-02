@@ -1,6 +1,6 @@
 {{ 
   config(
-    materialized='incremental', 
+    materialized='table', 
     unique_key='_id',
     schema = 'silver'
   ) 
