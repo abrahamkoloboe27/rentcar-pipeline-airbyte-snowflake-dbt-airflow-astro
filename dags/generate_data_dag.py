@@ -1,5 +1,5 @@
-from src.generate_data.create_index_mongo import generate_index
-from src.generate_data.create_data_mongo import generate_data_all
+from .src.generate_data.create_index_mongo import generate_index
+from .src.generate_data.create_data_mongo import generate_data_all
 from datetime import timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
