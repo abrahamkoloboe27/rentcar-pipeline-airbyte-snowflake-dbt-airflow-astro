@@ -55,6 +55,7 @@ class Driver(BaseDocument):
 class Vehicle(BaseDocument):
     id: Optional[ObjectId] = Field(default_factory=ObjectId, alias="_id")
     licensePlate: str
+    type : Literal["car", "bike", "tricycle", "van"]
     brand: str
     model: str
     year: int
@@ -71,6 +72,7 @@ class MaintenanceRecord(BaseDocument):
     cost: float
     startDate: datetime
     endDate: datetime
+    reportedAt: datetime
     description: str
 
 
@@ -97,6 +99,7 @@ class Rating(BaseDocument):
     id: Optional[ObjectId] = Field(default_factory=ObjectId, alias="_id")
     tripId: ObjectId
     givenBy: Literal["user", "driver"]
+    givenById: ObjectId
     toType: Literal["user", "driver", "vehicle"]
     toId: ObjectId
     stars: int = Field(ge=1, le=5)

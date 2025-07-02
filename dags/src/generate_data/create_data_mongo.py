@@ -1,10 +1,19 @@
 import os
 import logging
 import random
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List
 
 #from dotenv import load_dotenv
+import os 
+import sys
+import logging
+logging.basicConfig(level=logging.INFO)
+
+logging.info(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "generate_data"))
+logger = logging.getLogger(__name__)
+
 
 from faker import Faker
 from pydantic import BaseModel
@@ -163,6 +172,7 @@ def generate_data_all():
             model=fake.word().title(),
             year=random.randint(2015,2025),
             mileageKm=random.randint(0,100000),
+            type=random.choice(["car", "bike", "tricycle", "van"], weights=[0.4, 0.3, 0.2,0.1]),
             status=random.choice(["active","maintenance","decommissioned","sold"]),
             driverId=driver_id,
             acquisitionDate=random_datetime(start, now)
@@ -225,6 +235,7 @@ def generate_data_all():
             givenBy="user",
             toType="driver",
             toId=trip_doc["driverId"],
+            givenById=trip_doc["userId"],
             stars=random.randint(1,5),
             comment=fake.sentence(nb_words=10),
             createdAt=fake.date_time_between(start_date="-5y", end_date="+2M", tzinfo=timezone.utc)
@@ -232,6 +243,7 @@ def generate_data_all():
         ratings.append(Rating(
             tripId=trip_doc["_id"],
             givenBy="driver",
+            givenById=trip_doc["driverId"],
             toType="user",
             toId=trip_doc["userId"],
             stars=random.randint(1,5),
@@ -250,8 +262,9 @@ def generate_data_all():
             vehicleId=vid,
             type=random.choice(["repair","routine_check","replacement"]),
             cost=random.randint(5000,50000),
-            startDate=st,
-            endDate=en,
+            reportedAt= st - timedelta(hours=random.randint(1,72)),
+            startDate= st,
+            endDate= en,
             description=fake.sentence(nb_words=6)
         )
         maints.append(m)
