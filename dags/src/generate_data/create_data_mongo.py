@@ -9,7 +9,7 @@ from typing import List
 from faker import Faker
 from pydantic import BaseModel
 from pymongo import MongoClient
-from .models_mongo import *
+from models_mongo import *
 
 # -------------------- LOAD ENV --------------------
 #load_dotenv()
