@@ -2,6 +2,10 @@ from datetime import datetime, timedelta
 import os
 import logging
 
+logging.basicConfig(level=logging.INFO)
+
+logging.info(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.exceptions import AirflowFailException

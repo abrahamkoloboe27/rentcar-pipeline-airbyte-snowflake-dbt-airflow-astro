@@ -1,16 +1,18 @@
 import os 
 import sys
 import logging
+logging.basicConfig(level=logging.INFO)
 
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "generate_data"))
+logging.info(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src", "generate_data"))
 logger = logging.getLogger(__name__)
 
 logging.basicConfig(level=logging.INFO)
 
 logging.info(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from generate_data.create_index_mongo import generate_index
-from generate_data.create_data_mongo import generate_data_all
+from create_index_mongo import generate_index
+from create_data_mongo import generate_data_all
 from datetime import timedelta, datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
