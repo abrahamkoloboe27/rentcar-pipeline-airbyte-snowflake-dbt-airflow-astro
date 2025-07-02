@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
-
 from airflow import DAG
-from airflow.providers.airbyte.operators.airbyte import AirbyteConnectionTestOperator
 from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
+from airflow.providers.airbyte.hooks.airbyte import AirbyteHook
+from airflow.operators.python import PythonOperator
+from airflow.providers.airbyte.operators.airbyte import AirbyteTriggerSyncOperator
 
-# 1. Définition des arguments par défaut
 default_args = {
     'owner': 'abraham',
     'depends_on_past': False,
@@ -15,7 +15,6 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-# 2. Instanciation du DAG
 with DAG(
     dag_id='test_connexions_airbyte_snowflake',
     description='Test des connexions Airbyte et Snowflake',
@@ -26,18 +25,22 @@ with DAG(
     tags=['airbyte', 'snowflake', 'test'],
 ) as dag:
 
-    # 3. Test connexion Airbyte
-    test_airbyte_conn = AirbyteConnectionTestOperator(
+    test_airbyte_conn = PythonOperator(
         task_id='test_airbyte_connection',
-        airbyte_conn_id='airbyte_conn',   
+        python_callable=lambda: AirbyteHook(airbyte_conn_id="airbyte_conn").test_connection(),
     )
 
-    # 4. Test connexion Snowflake
+    trigger_airbyte = AirbyteTriggerSyncOperator(
+        task_id='trigger_airbyte_sync',
+        airbyte_conn_id='airbyte_conn',
+        connection_id='YOUR_UUID_HERE',
+        asynchronous=False,
+    )
+
     test_snowflake_conn = SnowflakeOperator(
         task_id='test_snowflake_connection',
-        snowflake_conn_id='rentcar_snowflake_conn', 
+        snowflake_conn_id='rentcar_snowflake_conn',
         sql='SELECT 1;',
     )
 
-    # 5. Orchestration
-    test_airbyte_conn >> test_snowflake_conn
+    test_airbyte_conn >> trigger_airbyte >> test_snowflake_conn
