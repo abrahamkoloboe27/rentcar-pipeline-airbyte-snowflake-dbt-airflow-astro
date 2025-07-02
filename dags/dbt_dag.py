@@ -28,7 +28,7 @@ my_cosmos_dag = DbtDag(
         dbt_executable_path=f"{os.environ['AIRFLOW_HOME']}/dbt_venv/bin/dbt",
     ),
     # normal dag parameters
-    schedule="0 1 * * *",
+    #schedule="0 1 * * *",
     start_date=datetime(2023, 1, 1),
     catchup=False,
     dag_id="dbt_rentcar",
