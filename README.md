@@ -31,15 +31,13 @@ Source Layer         →  Extraction Layer    →  Storage & Compute   →  Tran
 
 
 ## 2. ⚙️ Composants & Responsabilités
-
 | Composant              | Technologie          | Description                                                                     |
 | ---------------------- | -------------------- | ------------------------------------------------------------------------------- |
 | **Airbyte Connection** | Airbyte Cloud        | Sync configuré : MongoDB Atlas → Snowflake                                      |
-| **DAGs Airflow**       | Astronomer / Airflow | 1. AirbyteTriggerSync<br>2. Attente (Sensor)<br>3. dbt run                      |
-| **dbt Models**         | dbt (YAML + SQL)     | • staging/<br>• silver/<br>• marts/ride, rating, maintenance                    |
-| **Tables Snowflake**   | Snowflake            | RAW\_<table>, SILVER\_<table>, MARTS\_DIM\_*, MARTS\_FACT\_*                    |
-| **Dashboards**         | Metabase             | Tableau de bord « Ride Analytics », « Rating Analytics », « Fleet Maintenance » |
-
+| **DAGs Airflow**       | Astronomer / Airflow | 1. AirbyteTriggerSync<br>2. Attente (Sensor)<br>3. dbt run                    |
+| **dbt Models**         | dbt (YAML + SQL)     | • staging/<br>• silver/<br>• marts/ride, rating, maintenance                   |
+| **Tables Snowflake**   | Snowflake            | RAW\_\<table\>, SILVER\_\<table\>, MARTS\_DIM\_\*, MARTS\_FACT\_\*            |
+| **Dashboards**         | Metabase             | Tableau de bord « Ride Analytics », « Rating Analytics », « Fleet Maintenance » |
 
 ## 3. 🔄 Orchestration Airflow
 
