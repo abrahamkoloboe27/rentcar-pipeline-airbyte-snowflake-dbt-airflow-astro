@@ -72,7 +72,7 @@ Nous orchestrons le pipeline avec **deux DAGs distincts** dans Airflow :
 1. **`airbyte_dag`** – Charge les données depuis MongoDB Atlas vers Snowflake via Airbyte Cloud
 2. **`dbt_dag`** – Exécute les modèles dbt une fois que le chargement est terminé
 
-
+![Liste des DAGs Airflow](./assets/img/airflow_dags.png)
 
 ### 4.1. **DAG 1 : `airbyte_dag`**
 
