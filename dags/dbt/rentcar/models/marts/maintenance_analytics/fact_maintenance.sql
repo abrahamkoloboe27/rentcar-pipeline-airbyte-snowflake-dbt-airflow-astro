@@ -16,5 +16,6 @@ SELECT
   m.description            AS maintenance_description,
   m.laborhours             AS labor_hours,
   m.maintenance_hours      AS maintenance_duration_hours,
-  m.status                 AS maintenance_status
+  m.status                 AS maintenance_status,
+  m.reported_dt            AS reported_date
 FROM {{ ref('silver_maintenance') }} AS m

@@ -16,6 +16,7 @@ WITH src AS (
     status,
     year::INT AS year,
     mileageKm,
+    type,
     acquisitionDate
   FROM {{ ref('stg_vehicles') }}
 ),
@@ -24,6 +25,7 @@ cleaned AS (
   SELECT
     _id,
     driverId,
+    type,
     UPPER(brand) AS brand_clean,
     UPPER(model) AS model_clean,
     UPPER(licensePlate) AS plate_clean,

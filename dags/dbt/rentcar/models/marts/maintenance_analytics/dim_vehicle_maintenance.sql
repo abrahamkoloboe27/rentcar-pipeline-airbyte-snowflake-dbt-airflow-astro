@@ -15,5 +15,6 @@ SELECT
   v.year                   AS manufacture_year,
   v.mileagekm              AS mileage_km,
   v.vehicle_age            AS age_years,
-  v.acquisitiondate        AS acquisition_date
+  v.acquisitiondate        AS acquisition_date,
+  v.type                   AS vehicle_type
 FROM {{ ref('silver_vehicles') }} AS v

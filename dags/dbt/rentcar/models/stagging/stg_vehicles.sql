@@ -14,6 +14,7 @@ WITH raw AS (
     mileagekm,
     status,
     year, 
+    type,
     acquisitiondate::timestamp_ntz AS acquisitiondate
   FROM RIDE_SHARE_V1.vehicles
   -- {% if is_incremental() %}

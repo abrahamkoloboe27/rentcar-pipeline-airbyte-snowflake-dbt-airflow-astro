@@ -11,6 +11,7 @@ SELECT
   brand_clean              AS make,
   model_clean              AS model,
   plate_clean              AS plate_number,
+  type                     AS vehicle_type,
   year                     AS model_year,
   mileageKm               AS current_mileage,
   vehicle_age              AS age_years,

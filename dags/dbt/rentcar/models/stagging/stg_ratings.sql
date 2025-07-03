@@ -12,6 +12,8 @@ WITH raw AS (
     stars,
     comment,
     givenby,
+    givenbyid,
+    totype, 
     createdAt::timestamp_ntz AS created_dt
   FROM RIDE_SHARE_V1.ratings
   -- {% if is_incremental() %}

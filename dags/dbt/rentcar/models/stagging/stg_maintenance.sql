@@ -10,6 +10,7 @@ WITH raw AS (
     vehicleId,
     type,
     description, 
+    reportedAt::timestamp_ntz AS reported_dt,
     startdate::timestamp_ntz  AS started_dt,
     enddate::timestamp_ntz    AS ended_dt,
     cost
