@@ -8,8 +8,7 @@
 3. 🔄 **Orchestration Airflow**  
 4. 📦 **dbt & Modélisation**  
 5. 🚀 **Mise en route**  
-6. 📊 **Visualisation & Monitoring**  
-7. 🤝 **Ressources & Contacts**
+6. 🤝 **Ressources & Contacts**
 
 
 ## 1. 🏗️ Architecture Globale
@@ -131,69 +130,32 @@ models/
 | silver  | `silver_users`, `silver_trips`, … | Nettoyage, formats, calculs (durée, age, etc.) |
 | marts   | `dim_user`, `fact_trip`, …        | Modèles analytiques prêts à consommer (KPI)    |
 
+## 5. 📊 Visualisation avec Metabase
 
-## 5. 🚀 Mise en route
+Nous utilisons **Metabase** pour explorer et partager nos insights via des tableaux de bord interactifs.  
 
-1. **Cloner le repo**
+| Fonctionnalité       | Description                                           |
+|----------------------|-------------------------------------------------------|
+| **Self‑service BI**  | Interface drag‑&‑drop pour requêtes ad hoc            |
+| **Partage d’URLs**   | Publier des dashboards ou graphiques individuellement |
+| **Alerting**         | Notifications programmées (email, Slack)              |
 
-   ```bash
-   git clone https://github.com/abrahamkoloboe27/mobility-analytics.git
-   cd mobility-analytics
-   ```
+### Dashboards clés
 
-2. **Configurer `.env`**
+1. **🚗 Ride Overview**  
+   - Vue générale : nombre de courses, revenus et durée moyenne par jour/semaine  
+   - Filtrage : par pays, type de service (ride, delivery, rental)  
+   - Graphiques : timeseries, heatmap horaire  
+   ![Trips Overview](./assets/img/meta_base_dashboard_trips.png)
 
-   ```dotenv
-   # Airbyte
-   AIRBYTE_CLOUD_WORKSPACE_ID=...
-   AIRBYTE_CLOUD_CLIENT_ID=...
-   AIRBYTE_CLOUD_CLIENT_SECRET=...
-   AIRBYTE_CONN_ID=...
-
-   # Snowflake
-   SNOWFLAKE_ACCOUNT=...
-   SNOWFLAKE_USER=...
-   SNOWFLAKE_PASSWORD=...
-   SNOWFLAKE_ROLE=...
-   SNOWFLAKE_WAREHOUSE=...
-   SNOWFLAKE_DATABASE=...
-   SNOWFLAKE_SCHEMA=...
-
-   # dbt
-   DBT_PROFILES_DIR=./
-   ```
-
-3. **Installer les dépendances**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Déployer le DAG sur Astronomer**
-
-   ```bash
-   astro deploy
-   ```
-
-5. **Lancer manuellement ou attendre le Scheduler**
-
-   * Airflow UI → Trigger → `full_pipeline_dag`
-
-6. **Visualiser les dashboards**
-
-   * Ouvrir Metabase → 📊 Dashboards pré‑configurés
+2. **🔧 Maintenance Tracker**  
+   - Suivi des coûts : coût total et moyen par véhicule et par mois  
+   - Performances : temps moyen de réparation, nombre d’interventions  
+   - Table détaillée : liste des pannes récentes avec lien vers le détail  
+   ![Maintenance Tracker](./assets/img/meta_base_dashboard_maintenance.png)
 
 
-
-## 6. 📊 Visualisation & Monitoring
-
-* **Airflow** : Graph, Gantt, Logs, DAGs
-* **Snowflake** : History, Query Profile
-* **Metabase** : Dashboards interactifs
-
-
-
-## 7. 🤝 Ressources & Contacts
+## 6. 🤝 Ressources & Contacts
 
 | Ressource        | Lien                                                                                                                      |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
