@@ -107,7 +107,7 @@ airbyte_dag                 dbt_dag
 
 ## 4. 📦 dbt & Modélisation
 
-![Modelisation & Data lineage](./assets/img/dbt_data_lineage.png)
+![Modelisation & Data lineage](./assets/img/data_lineage.png)
 
 ### Structure
 
