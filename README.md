@@ -1,45 +1,163 @@
-Overview
-========
+# 🎡 Mobility Data Platform — End‑to‑End Pipeline
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+Bienvenue dans le **README** de votre pipeline complet de mobilité ! Ce document décrit :
 
-Project Contents
-================
+1. 🏗️ **Architecture globale**  
+2. ⚙️ **Composants & responsabilités**  
+3. 🔄 **Orchestration Airflow**  
+4. 📦 **dbt & Modélisation**  
+5. 🚀 **Mise en route**  
+6. 📊 **Visualisation & Monitoring**  
+7. 🤝 **Ressources & Contacts**
 
-Your Astro project contains the following files and folders:
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+## 1. 🏗️ Architecture Globale
 
-Deploy Your Project Locally
-===========================
+```text
+Source Layer         →  Extraction Layer    →  Storage & Compute   →  Transform Layer    →  Viz Layer
+(MongoDB Atlas)      (Airbyte Cloud)       (Snowflake)          (dbt)                (Metabase)
+````
 
-Start Airflow on your local machine by running 'astro dev start'.
+| Couche                | Outil / Service                   | Rôle                                                |
+| --------------------- | --------------------------------- | --------------------------------------------------- |
+| **Source**            | MongoDB Atlas                     | Base de données opérationnelle (Users, Trips, etc.) |
+| **Extraction**        | Airbyte Cloud                     | Sync incrémental MongoDB → Snowflake                |
+| **Storage & Compute** | Snowflake                         | Tables RAW, Silver, Marts                           |
+| **Transformations**   | dbt                               | Staging ⭢ Silver ⭢ Marts (dim/fact par domaine)     |
+| **Orchestration**     | Apache Airflow (Astronomer Cloud) | Scheduling, retries, alerting                       |
+| **Visualisation**     | Metabase                          | Dashboards métiers (KPI, rapports)                  |
 
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
+<details>
+<summary>🖼️ Voir le schéma d’architecture</summary>
 
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
+![Architecture Globale](./assets/img/rentcar-pipeline.png)
 
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
+</details>
 
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
 
-Deploy Your Project to Astronomer
-=================================
+## 2. ⚙️ Composants & Responsabilités
 
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
+| Composant              | Technologie          | Description                                                                     |
+| ---------------------- | -------------------- | ------------------------------------------------------------------------------- |
+| **Airbyte Connection** | Airbyte Cloud        | Sync configuré : MongoDB Atlas → Snowflake                                      |
+| **DAGs Airflow**       | Astronomer / Airflow | 1. AirbyteTriggerSync<br>2. Attente (Sensor)<br>3. dbt run                      |
+| **dbt Models**         | dbt (YAML + SQL)     | • staging/<br>• silver/<br>• marts/ride, rating, maintenance                    |
+| **Tables Snowflake**   | Snowflake            | RAW\_<table>, SILVER\_<table>, MARTS\_DIM\_*, MARTS\_FACT\_*                    |
+| **Dashboards**         | Metabase             | Tableau de bord « Ride Analytics », « Rating Analytics », « Fleet Maintenance » |
 
-Contact
-=======
 
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+## 3. 🔄 Orchestration Airflow
+
+<details>
+<summary>Voir l’arborescence et l’aperçu du DAG</summary>
+
+![Airflow DAG](./docs/airflow_dag.png)
+
+| Task ID            | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| `trigger_airbyte`  | Déclenche la sync Airbyte Cloud                     |
+| `wait_for_airbyte` | Attend la fin du job Airbyte (Sensor)               |
+| `run_dbt_staging`  | Exécute les modèles staging                         |
+| `run_dbt_silver`   | Exécute les modèles silver                          |
+| `run_dbt_marts`    | Exécute les marts par domaine (Ride, Rating, Maint) |
+
+</details>
+
+
+## 4. 📦 dbt & Modélisation
+
+### Structure
+
+```text
+models/
+├── staging/      # raw → staging (incremental)
+├── silver/       # staging → silver (nettoyage, dérivés)
+└── marts/
+    ├── ride_analytics/        # dim_*, fact_trip
+    ├── rating_analytics/      # dim_*, fact_rating
+    └── maintenance_analytics/ # dim_*, fact_maintenance
+```
+
+### Tables clés
+
+| Layer   | Exemples de modèles               | Objectif                                       |
+| ------- | --------------------------------- | ---------------------------------------------- |
+| staging | `stg_users`, `stg_trips`, …       | Charger & découper les raw JSON Mongo          |
+| silver  | `silver_users`, `silver_trips`, … | Nettoyage, formats, calculs (durée, age, etc.) |
+| marts   | `dim_user`, `fact_trip`, …        | Modèles analytiques prêts à consommer (KPI)    |
+
+
+## 5. 🚀 Mise en route
+
+1. **Cloner le repo**
+
+   ```bash
+   git clone https://github.com/abrahamkoloboe27/mobility-analytics.git
+   cd mobility-analytics
+   ```
+
+2. **Configurer `.env`**
+
+   ```dotenv
+   # Airbyte
+   AIRBYTE_CLOUD_WORKSPACE_ID=...
+   AIRBYTE_CLOUD_CLIENT_ID=...
+   AIRBYTE_CLOUD_CLIENT_SECRET=...
+   AIRBYTE_CONN_ID=...
+
+   # Snowflake
+   SNOWFLAKE_ACCOUNT=...
+   SNOWFLAKE_USER=...
+   SNOWFLAKE_PASSWORD=...
+   SNOWFLAKE_ROLE=...
+   SNOWFLAKE_WAREHOUSE=...
+   SNOWFLAKE_DATABASE=...
+   SNOWFLAKE_SCHEMA=...
+
+   # dbt
+   DBT_PROFILES_DIR=./
+   ```
+
+3. **Installer les dépendances**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Déployer le DAG sur Astronomer**
+
+   ```bash
+   astro deploy
+   ```
+
+5. **Lancer manuellement ou attendre le Scheduler**
+
+   * Airflow UI → Trigger → `full_pipeline_dag`
+
+6. **Visualiser les dashboards**
+
+   * Ouvrir Metabase → 📊 Dashboards pré‑configurés
+
+
+
+## 6. 📊 Visualisation & Monitoring
+
+* **Airflow** : Graph, Gantt, Logs, DAGs
+* **Snowflake** : History, Query Profile
+* **Metabase** : Dashboards interactifs
+
+
+
+## 7. 🤝 Ressources & Contacts
+
+| Ressource        | Lien                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 🐙 GitHub        | [https://github.com/abrahamkoloboe27](https://github.com/abrahamkoloboe27)                                                |
+| 🔗 LinkedIn      | [https://www.linkedin.com/in/abraham-zacharie-koloboe-data](https://www.linkedin.com/in/abraham-zacharie-koloboe-data)... |
+| 📖 dbt Docs      | [https://docs.getdbt.com](https://docs.getdbt.com)                                                                        |
+| 🌐 Airbyte Cloud | [https://cloud.airbyte.com](https://cloud.airbyte.com)                                                                    |
+| ❄️ Snowflake     | [https://www.snowflake.com](https://www.snowflake.com)                                                                    |
+| 📊 Metabase      | [https://www.metabase.com](https://www.metabase.com)                                                                      |
+
+> *Améliorez vos décisions grâce à un pipeline automatisé, fiable et extensible !* 🚀📈
+
