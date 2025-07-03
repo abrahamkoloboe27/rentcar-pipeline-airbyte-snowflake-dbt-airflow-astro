@@ -127,6 +127,10 @@ models/
 | silver  | `silver_users`, `silver_trips`, … | Nettoyage, formats, calculs (durée, age, etc.) |
 | marts   | `dim_user`, `fact_trip`, …        | Modèles analytiques prêts à consommer (KPI)    |
 
+### Data lineage
+
+![Data lineage](./assets/img/dbt_data_lineage.png)
+
 ## 5. 📊 Visualisation avec Metabase
 
 Nous utilisons **Metabase** pour explorer et partager nos insights via des tableaux de bord interactifs.  
