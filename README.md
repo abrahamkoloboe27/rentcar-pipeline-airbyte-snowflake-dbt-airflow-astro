@@ -1,6 +1,7 @@
 # 🎡 Mobility Data Platform — End‑to‑End Pipeline
 
-Bienvenue dans le **README** de votre pipeline complet de mobilité ! Ce document décrit :
+![Architecture Globale](./assets/img/rentcar-pipeline.png)
+
 
 1. 🏗️ **Architecture globale**  
 2. ⚙️ **Composants & responsabilités**  
@@ -27,12 +28,6 @@ Source Layer         →  Extraction Layer    →  Storage & Compute   →  Tran
 | **Orchestration**     | Apache Airflow (Astronomer Cloud) | Scheduling, retries, alerting                       |
 | **Visualisation**     | Metabase                          | Dashboards métiers (KPI, rapports)                  |
 
-<details>
-<summary>🖼️ Voir le schéma d’architecture</summary>
-
-![Architecture Globale](./assets/img/rentcar-pipeline.png)
-
-</details>
 
 
 ## 2. ⚙️ Composants & Responsabilités
