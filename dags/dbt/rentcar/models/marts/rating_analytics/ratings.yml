@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: fact_rating
+    description: |
+      Table des faits représentant les évaluations des trajets.
+      Contient les informations sur la note, le commentaire, les utilisateurs impliqués, et les dates associées.
+    columns:
+      - name: rating_key
+        description: Identifiant unique de l'évaluation.
+      - name: date_key
+        description: Date tronquée au jour de l'évaluation.
+      - name: trip_key
+        description: Identifiant du trajet évalué.
+      - name: rater_key
+        description: Identifiant de l'utilisateur qui a donné la note.
+      - name: ratee_key
+        description: Identifiant de l'utilisateur qui a reçu la note.
+      - name: rating_stars
+        description: Nombre d'étoiles attribuées.
+      - name: rating_comment
+        description: Commentaire associé à l'évaluation.
+      - name: created_at
+        description: Date de création de l'évaluation.
+      - name: rated_at
+        description: Date à laquelle l'évaluation a été faite.
+      - name: rated_by
+        description: Indique qui a donné l'évaluation.
+
+  - name: dim_user_rating
+    description: |
+      Dimension des utilisateurs avec leurs informations personnelles et localisation.
+    columns:
+      - name: user_key
+        description: Identifiant unique de l'utilisateur.
+      - name: user_name
+        description: Nom complet de l'utilisateur.
+      - name: email
+        description: Adresse email de l'utilisateur.
+      - name: phone
+        description: Numéro de téléphone de l'utilisateur.
+      - name: signup_date
+        description: Date d'inscription de l'utilisateur.
+      - name: country_key
+        description: Identifiant du pays de l'utilisateur.
+      - name: city_key
+        description: Identifiant de la ville de l'utilisateur.
+
+  - name: dim_driver_rating
+    description: |
+      Dimension des conducteurs avec leurs informations de licence et statut.
+    columns:
+      - name: driver_key
+        description: Identifiant unique du conducteur.
+      - name: user_key
+        description: Identifiant de l'utilisateur lié au conducteur.
+      - name: license_number
+        description: Numéro de licence du conducteur.
+      - name: driver_status
+        description: Statut actuel du conducteur.
+      - name: joined_date
+        description: Date d'adhésion du conducteur.
+
+  - name: dim_date_rating
+    description: |
+      Dimension des dates utilisées pour l'analyse des évaluations.
+      Contient des informations détaillées sur l'année, le trimestre, le mois, le jour, et si c'est un week-end.
+    columns:
+      - name: date_key
+        description: Clé de date unique.
+      - name: year
+        description: Année.
+      - name: quarter
+        description: Trimestre de l'année.
+      - name: month
+        description: Mois de l'année.
+      - name: day
+        description: Jour du mois.
+      - name: day_of_week
+        description: Jour de la semaine (1=Dimanche, 7=Samedi).
+      - name: is_weekend
+        description: Indicateur si le jour est un week-end.
+      - name: date_iso
+        description: Date au format ISO (YYYY-MM-DD).

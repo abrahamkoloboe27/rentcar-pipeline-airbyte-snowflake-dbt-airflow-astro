@@ -1,0 +1,161 @@
+version: 2
+models:
+  - name: silver_countries
+    description: Cleaned and transformed country data
+    columns:
+      - name: country_key
+        description: Unique identifier for each country
+      - name: country_name
+        description: Name of the country
+      - name: country_iso
+        description: ISO code of the country
+      - name: currency_code
+        description: Currency code used in the country
+      - name: locale
+        description: Locale setting for the country
+
+  - name: silver_drivers
+    description: Cleaned and transformed driver data
+    columns:
+      - name: _id
+        description: Unique identifier for each driver
+      - name: user_id
+        description: Associated user ID
+      - name: license_no
+        description: Driver's license number (cleaned and uppercase)
+      - name: status
+        description: Current driver status (available/on_trip/offline)
+      - name: joined_dt
+        description: Date when driver joined the platform
+
+  - name: silver_maintenance
+    description: Cleaned and transformed maintenance records
+    columns:
+      - name: _id
+        description: Unique identifier for each maintenance record
+      - name: vehicleId
+        description: ID of the vehicle receiving maintenance
+      - name: type
+        description: Type of maintenance performed
+      - name: reported_dt
+        description: Date when maintenance was reported
+      - name: started_dt
+        description: Date when maintenance work started
+      - name: ended_dt
+        description: Date when maintenance work ended
+      - name: cost
+        description: Cost of maintenance work
+      - name: description
+        description: Detailed description of maintenance work
+      - name: laborHours
+        description: Number of hours spent on maintenance
+      - name: status
+        description: Status of maintenance (completed/ongoing)
+      - name: maintenance_hours
+        description: Total hours between start and end of maintenance
+
+  - name: silver_ratings
+    description: Cleaned and transformed rating data
+    columns:
+      - name: _id
+        description: Unique identifier for each rating
+      - name: tripId
+        description: ID of the associated trip
+      - name: raterId
+        description: ID of the user giving the rating
+      - name: rateeId
+        description: ID of the user receiving the rating
+      - name: stars
+        description: Rating score given (number of stars)
+      - name: comment
+        description: Text comment accompanying the rating
+      - name: created_dt
+        description: Timestamp when rating was created
+      - name: givenby
+        description: Type of user giving the rating
+      - name: rating_date
+        description: Date portion of when rating was created
+
+
+  - name: silver_trips
+    description: Cleaned and transformed trip data
+    columns:
+      - name: _id
+        description: Unique identifier for each trip
+      - name: serviceType
+        description: Type of service requested (ride/rental)
+      - name: userId
+        description: ID of user who requested the trip
+      - name: driverId
+        description: ID of driver assigned to the trip
+      - name: vehicleId
+        description: ID of vehicle used for the trip
+      - name: requested_dt
+        description: Timestamp when trip was requested
+      - name: accepted_dt
+        description: Timestamp when driver accepted the trip
+      - name: started_dt
+        description: Timestamp when trip started
+      - name: ended_dt
+        description: Timestamp when trip ended
+      - name: duration_min
+        description: Duration of trip in minutes
+      - name: status
+        description: Current status of the trip
+      - name: amount
+        description: Cost of the trip
+      - name: currency
+        description: Currency of the trip cost
+      - name: rental_mins
+        description: Duration of rental in minutes (for rental trips)
+      - name: weight_kg
+        description: Package weight in kg (for delivery trips)
+      - name: trip_date
+        description: Date portion of when trip was requested
+      - name: trip_hour
+        description: Hour of day when trip was requested
+      - name: service_type_clean
+        description: Standardized service type
+
+  - name: silver_users
+    description: Cleaned and transformed user data
+    columns:
+      - name: _id
+        description: Unique identifier for each user
+      - name: fullname
+        description: Full name of the user
+      - name: email
+        description: User's email address (cleaned and lowercase)
+      - name: phonenumber
+        description: User's phone number (cleaned of non-digits)
+      - name: cityid
+        description: ID of user's city
+      - name: signup_dt
+        description: Date when user signed up
+      - name: countryid
+        description: ID of user's country
+  - name: silver_vehicles
+    description: Cleaned and transformed vehicle data
+    columns:
+      - name: _id
+        description: Unique identifier for each vehicle
+      - name: driverId
+        description: ID of driver assigned to the vehicle
+      - name: type
+        description: Type of vehicle
+      - name: brand_clean
+        description: Standardized vehicle brand name (uppercase)
+      - name: model_clean
+        description: Standardized vehicle model name (uppercase)
+      - name: plate_clean
+        description: Standardized license plate number (uppercase)
+      - name: status_clean
+        description: Standardized vehicle status (idle/busy/maintenance/retired)
+      - name: year
+        description: Vehicle manufacturing year
+      - name: mileageKm
+        description: Vehicle mileage in kilometers
+      - name: vehicle_age
+        description: Age of vehicle in years from manufacturing date
+      - name: acquisitionDate
+        description: Date when vehicle was acquired

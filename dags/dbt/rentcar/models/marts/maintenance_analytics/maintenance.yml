@@ -1,0 +1,81 @@
+version: 2
+
+models:
+  - name: fact_maintenance
+    description: |
+      Table des faits représentant les opérations de maintenance des véhicules.
+      Contient les informations sur le type, les dates, le coût, la durée, et le statut de la maintenance.
+    columns:
+      - name: maintenance_key
+        description: Identifiant unique de la maintenance.
+      - name: date_key
+        description: Date tronquée au jour du début de la maintenance.
+      - name: vehicle_key
+        description: Identifiant du véhicule concerné.
+      - name: maintenance_type
+        description: Type de maintenance effectuée.
+      - name: maintenance_start_date
+        description: Date de début de la maintenance.
+      - name: maintenance_end_date
+        description: Date de fin de la maintenance.
+      - name: maintenance_cost
+        description: Coût total de la maintenance.
+      - name: maintenance_description
+        description: Description détaillée de la maintenance.
+      - name: labor_hours
+        description: Nombre d'heures de travail effectuées.
+      - name: maintenance_duration_hours
+        description: Durée totale de la maintenance en heures.
+      - name: maintenance_status
+        description: Statut actuel de la maintenance.
+      - name: reported_date
+        description: Date à laquelle la maintenance a été signalée.
+
+  - name: dim_vehicle_maintenance
+    description: |
+      Dimension des véhicules avec leurs caractéristiques et état pour la maintenance.
+    columns:
+      - name: vehicle_key
+        description: Identifiant unique du véhicule.
+      - name: driver_id
+        description: Identifiant du conducteur associé au véhicule.
+      - name: make
+        description: Marque du véhicule.
+      - name: model
+        description: Modèle du véhicule.
+      - name: plate_number
+        description: Numéro de plaque du véhicule.
+      - name: status
+        description: Statut actuel du véhicule.
+      - name: manufacture_year
+        description: Année de fabrication du véhicule.
+      - name: mileage_km
+        description: Kilométrage actuel du véhicule.
+      - name: age_years
+        description: Âge du véhicule en années.
+      - name: acquisition_date
+        description: Date d'acquisition du véhicule.
+      - name: vehicle_type
+        description: Type de véhicule.
+
+  - name: dim_date_maintenance
+    description: |
+      Dimension des dates utilisées pour l'analyse des maintenances.
+      Inclut les dates de début et de fin des maintenances.
+    columns:
+      - name: date_key
+        description: Clé de date unique.
+      - name: year
+        description: Année.
+      - name: quarter
+        description: Trimestre de l'année.
+      - name: month
+        description: Mois de l'année.
+      - name: day
+        description: Jour du mois.
+      - name: day_of_week
+        description: Jour de la semaine (1=Dimanche, 7=Samedi).
+      - name: is_weekend
+        description: Indicateur si le jour est un week-end.
+      - name: date_iso
+        description: Date au format ISO (YYYY-MM-DD).

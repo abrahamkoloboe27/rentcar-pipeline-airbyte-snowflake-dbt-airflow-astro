@@ -1,0 +1,141 @@
+version: 2
+
+models:
+  - name: fact_trip
+    description: |
+      Table des faits représentant les trajets effectués.
+      Contient les informations clés telles que la durée, le montant, le type de service, et les dates associées à chaque trajet.
+    columns:
+      - name: trip_key
+        description: Identifiant unique du trajet.
+      - name: date_key
+        description: Date tronquée au jour du moment de la demande du trajet.
+      - name: user_key
+        description: Identifiant de l'utilisateur ayant demandé le trajet.
+      - name: driver_key
+        description: Identifiant du conducteur ayant réalisé le trajet.
+      - name: vehicle_key
+        description: Identifiant du véhicule utilisé pour le trajet.
+      - name: duration_minutes
+        description: Durée du trajet en minutes.
+      - name: fare_amount
+        description: Montant payé pour le trajet.
+      - name: fare_currency
+        description: Devise utilisée pour le paiement du trajet.
+      - name: package_weight
+        description: Poids du colis transporté, si applicable.
+      - name: rental_duration
+        description: Durée de location en minutes, si applicable.
+      - name: service_type
+        description: Type de service de transport.
+      - name: trip_status
+        description: Statut actuel du trajet.
+      - name: requested_date
+        description: Date et heure de la demande du trajet.
+      - name: started_date
+        description: Date et heure de début du trajet.
+      - name: ended_date
+        description: Date et heure de fin du trajet.
+
+  - name: dim_vehicle_ride
+    description: |
+      Dimension des véhicules utilisés pour les trajets.
+      Contient les détails du véhicule tels que la marque, le modèle, le type, l'année, et le statut.
+    columns:
+      - name: vehicle_key
+        description: Identifiant unique du véhicule.
+      - name: driver_key
+        description: Identifiant du conducteur associé au véhicule.
+      - name: make
+        description: Marque du véhicule.
+      - name: model
+        description: Modèle du véhicule.
+      - name: plate_number
+        description: Numéro de plaque du véhicule.
+      - name: vehicle_type
+        description: Type de véhicule.
+      - name: model_year
+        description: Année du modèle du véhicule.
+      - name: current_mileage
+        description: Kilométrage actuel du véhicule.
+      - name: age_years
+        description: Âge du véhicule en années.
+      - name: vehicle_status
+        description: Statut actuel du véhicule.
+      - name: acquisition_date
+        description: Date d'acquisition du véhicule.
+
+  - name: dim_user_ride
+    description: |
+      Dimension des utilisateurs avec leurs informations personnelles et pays associés.
+    columns:
+      - name: user_key
+        description: Identifiant unique de l'utilisateur.
+      - name: user_name
+        description: Nom complet de l'utilisateur.
+      - name: email
+        description: Adresse email de l'utilisateur.
+      - name: phone
+        description: Numéro de téléphone de l'utilisateur.
+      - name: signup_date
+        description: Date d'inscription de l'utilisateur.
+      - name: country_name
+        description: Nom du pays de l'utilisateur.
+      - name: country_iso
+        description: Code ISO du pays.
+      - name: currency_code
+        description: Code de la devise locale du pays.
+      - name: locale
+        description: Paramètre régional du pays.
+
+  - name: dim_driver_ride
+    description: |
+      Dimension des conducteurs avec leurs informations de licence et statut.
+    columns:
+      - name: driver_key
+        description: Identifiant unique du conducteur.
+      - name: user_key
+        description: Identifiant de l'utilisateur lié au conducteur.
+      - name: license_number
+        description: Numéro de licence du conducteur.
+      - name: driver_status
+        description: Statut actuel du conducteur.
+      - name: joined_date
+        description: Date d'adhésion du conducteur.
+
+  - name: dim_date_ride
+    description: |
+      Dimension des dates utilisées pour l'analyse des trajets.
+      Contient des informations détaillées sur l'année, le trimestre, le mois, le jour, et si c'est un week-end.
+    columns:
+      - name: date_key
+        description: Clé de date unique.
+      - name: year
+        description: Année.
+      - name: quarter
+        description: Trimestre de l'année.
+      - name: month
+        description: Mois de l'année.
+      - name: day
+        description: Jour du mois.
+      - name: day_of_week
+        description: Jour de la semaine (1=Dimanche, 7=Samedi).
+      - name: is_weekend
+        description: Indicateur si le jour est un week-end.
+      - name: date_iso
+        description: Date au format ISO (YYYY-MM-DD).
+
+  - name: dim_country
+    description: |
+      Dimension des pays avec leurs codes ISO, devises et paramètres régionaux.
+    columns:
+      - name: country_key
+        description: Identifiant unique du pays.
+      - name: country_name
+        description: Nom du pays.
+      - name: country_iso
+        description: Code ISO du pays.
+      - name: currency_code
+        description: Code de la devise utilisée dans le pays.
+      - name: locale
+        description: Paramètre régional du pays.

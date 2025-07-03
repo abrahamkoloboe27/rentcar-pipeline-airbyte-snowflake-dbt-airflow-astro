@@ -1,0 +1,201 @@
+version: 2
+
+models:
+  - name: stg_cities
+    description: "staging table for cities"
+    config:
+      materialized: table
+      unique_key: city_id
+      schema: stg
+    columns:
+      - name: city_id
+        description: "unique identifier for the city"
+      - name: city_name
+        description: "name of the city"
+      - name: country_id
+        description: "unique identifier for the country"
+      - name: latitude
+        description: "geographical latitude coordinate"
+      - name: longitude
+        description: "geographical longitude coordinate"
+
+  - name: stg_countries
+    description: "staging table for countries"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the country"
+      - name: name
+        description: "name of the country"
+      - name: isoCode
+        description: "ISO code of the country"
+      - name: currency
+        description: "currency used in the country"
+      - name: locale
+        description: "locale settings for the country"
+  
+  - name: stg_drivers
+    description: "staging table for drivers"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the driver"
+      - name: userId
+        description: "user identifier associated with the driver"
+      - name: cityid
+        description: "identifier of the city where driver operates"
+      - name: joined_dt
+        description: "timestamp when driver joined the platform"
+      - name: fullname
+        description: "full name of the driver"
+      - name: phonenumber
+        description: "contact phone number of the driver"
+      - name: licenseNumber
+        description: "driver's license number"
+      - name: status
+        description: "current status of the driver"
+
+  - name: stg_maintenance
+    description: "staging table for maintenance records"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the maintenance record"
+      - name: vehicleId
+        description: "identifier of the vehicle receiving maintenance"
+      - name: type
+        description: "type of maintenance performed"
+      - name: description
+        description: "detailed description of the maintenance work"
+      - name: reported_dt
+        description: "timestamp when maintenance was reported"
+      - name: started_dt
+        description: "timestamp when maintenance work started"
+      - name: ended_dt
+        description: "timestamp when maintenance work ended"
+      - name: cost
+        description: "cost of the maintenance work"
+
+  - name: stg_ratings
+    description: "staging table for ratings"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the rating"
+      - name: tripid
+        description: "identifier of the associated trip"
+      - name: toid
+        description: "identifier of the rated entity"
+      - name: stars
+        description: "rating score given"
+      - name: comment
+        description: "text comment provided with rating"
+      - name: givenby
+        description: "name of person who gave the rating"
+      - name: givenbyid
+        description: "identifier of person who gave the rating"
+      - name: totype
+        description: "type of entity being rated"
+      - name: created_dt
+        description: "timestamp when rating was created"
+
+  - name: stg_trips
+    description: "staging table for trips"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the trip"
+      - name: serviceType
+        description: "type of service requested"
+      - name: userId
+        description: "identifier of the user who requested the trip"
+      - name: driverId
+        description: "identifier of the driver assigned to the trip"
+      - name: vehicleId
+        description: "identifier of the vehicle used for the trip"
+      - name: origin
+        description: "starting location of the trip"
+      - name: destination
+        description: "ending location of the trip"
+      - name: requested_dt
+        description: "timestamp when trip was requested"
+      - name: accepted_dt
+        description: "timestamp when trip was accepted by driver"
+      - name: started_dt
+        description: "timestamp when trip started"
+      - name: ended_dt
+        description: "timestamp when trip ended"
+      - name: status
+        description: "current status of the trip"
+      - name: amount
+        description: "total amount charged for the trip"
+      - name: fare
+        description: "base fare for the trip"
+      - name: serviceDetails
+        description: "additional details about the service"
+      - name: currency
+        description: "currency used for payment"
+
+  - name: stg_users
+    description: "staging table for users"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the user"
+      - name: fullname
+        description: "full name of the user"
+      - name: email
+        description: "email address of the user"
+      - name: phonenumber
+        description: "contact phone number of the user"
+      - name: cityid
+        description: "identifier of the city where user is located"
+      - name: signup_dt
+        description: "timestamp when user registered"
+      - name: countryid
+        description: "identifier of the user's country"
+  - name: stg_vehicles
+    description: "staging table for vehicles"
+    config:
+      materialized: table
+      unique_key: _id
+      schema: stg
+    columns:
+      - name: _id
+        description: "unique identifier for the vehicle"
+      - name: driverId
+        description: "identifier of the driver assigned to the vehicle"
+      - name: brand
+        description: "brand/manufacturer of the vehicle"
+      - name: model
+        description: "model name of the vehicle"
+      - name: licenseplate
+        description: "license plate number of the vehicle"
+      - name: mileagekm
+        description: "total mileage of the vehicle in kilometers"
+      - name: status
+        description: "current status of the vehicle"
+      - name: year
+        description: "manufacturing year of the vehicle"
+      - name: type
+        description: "type/category of the vehicle"
+      - name: acquisitiondate
+        description: "date when the vehicle was acquired"
