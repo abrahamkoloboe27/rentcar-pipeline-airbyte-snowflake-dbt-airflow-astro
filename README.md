@@ -151,6 +151,12 @@ Nous utilisons **Metabase** pour explorer et partager nos insights via des table
    - Table détaillée : liste des pannes récentes avec lien vers le détail  
    ![Maintenance Tracker](./assets/img/meta_base_dashboard_maintenance.png)
 
+3. **⭐ Rating Overview**  
+   - Avis positifs et négatifs : distribution, tendances temporelles  
+   - Table détaillée : liste des commentaires récents avec lien vers le détail  
+   ![Rating Overview](./assets/img/meta_base_ratings_dashboard.png)
+
+
 
 ## 6. 🤝 Ressources & Contacts
 
