@@ -13,10 +13,6 @@
 
 ## 1. 🏗️ Architecture Globale
 
-```text
-Source Layer         →  Extraction Layer    →  Storage & Compute   →  Transform Layer    →  Viz Layer
-(MongoDB Atlas)      (Airbyte Cloud)       (Snowflake)          (dbt)                (Metabase)
-````
 
 | Couche                | Outil / Service                   | Rôle                                                |
 | --------------------- | --------------------------------- | --------------------------------------------------- |
