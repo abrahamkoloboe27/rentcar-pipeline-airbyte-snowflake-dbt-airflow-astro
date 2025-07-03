@@ -7,7 +7,7 @@
 2. ⚙️ **Composants & responsabilités**  
 3. 🔄 **Orchestration Airflow**  
 4. 📦 **dbt & Modélisation**  
-5. 🚀 **Mise en route**  
+5. 📊 Visualisation avec Metabase
 6. 🤝 **Ressources & Contacts**
 
 
@@ -30,6 +30,7 @@ Source Layer         →  Extraction Layer    →  Storage & Compute   →  Tran
 
 
 ## 2. ⚙️ Composants & Responsabilités
+
 | Composant              | Technologie          | Description                                                                     |
 | ---------------------- | -------------------- | ------------------------------------------------------------------------------- |
 | **Airbyte Connection** | Airbyte Cloud        | Sync configuré : MongoDB Atlas → Snowflake                                      |
