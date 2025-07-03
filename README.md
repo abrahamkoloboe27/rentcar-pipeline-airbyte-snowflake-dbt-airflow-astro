@@ -41,20 +41,72 @@ Source Layer         →  Extraction Layer    →  Storage & Compute   →  Tran
 
 ## 3. 🔄 Orchestration Airflow
 
-<details>
-<summary>Voir l’arborescence et l’aperçu du DAG</summary>
+Nous orchestrons le pipeline avec **deux DAGs distincts** dans Airflow :
 
-![Airflow DAG](./docs/airflow_dag.png)
+1. **`airbyte_dag`** – Charge les données depuis MongoDB Atlas vers Snowflake via Airbyte Cloud
+2. **`dbt_dag`** – Exécute les modèles dbt une fois que le chargement est terminé
 
-| Task ID            | Description                                         |
-| ------------------ | --------------------------------------------------- |
-| `trigger_airbyte`  | Déclenche la sync Airbyte Cloud                     |
-| `wait_for_airbyte` | Attend la fin du job Airbyte (Sensor)               |
-| `run_dbt_staging`  | Exécute les modèles staging                         |
-| `run_dbt_silver`   | Exécute les modèles silver                          |
-| `run_dbt_marts`    | Exécute les marts par domaine (Ride, Rating, Maint) |
 
-</details>
+
+### 3.1. **DAG 1 : `airbyte_dag`**
+
+👉 **Objectif** : lancer et monitorer la sync Airbyte Cloud
+
+* **Schedule** : `@daily` (configurable)
+* **Étapes** :
+
+  1. **Trigger Airbyte**
+
+     * Opérateur : `AirbyteTriggerSyncOperator`
+     * Démarre la connexion MongoDB→Snowflake
+  2. **Sensor Airbyte**
+
+     * Opérateur : `AirbyteJobSensor`
+     * Poll jusqu’à l’état `succeeded` ou `failed`
+* **Alerting & Retries** : 2 tentatives, delay 5 min, timeout sensor 24 h
+
+
+<summary>📷 Aperçu du `airbyte_dag`</summary>
+
+![Aperçu du DAG 1](./assets/img/airbyte_dag.png)
+
+
+
+### 3.2. **DAG 2 : `dbt_dag`**
+
+👉 **Objectif** : transformer les tables RAW/SILVER en Marts analytiques
+
+* **Déclenchement** :
+
+  * Automatique via `TriggerDagRunOperator` à la fin de `airbyte_dag`
+* **Schedule** : none (exécution uniquement par trigger)
+* **Étapes** :
+
+  1. **dbt deps & seed**
+  2. **dbt run** (staging → silver → marts)
+  3. **dbt test** (qualité des données, tests de schéma)
+* **Logs & Monitoring** : visualisation des étapes dbt dans Airflow UI
+
+
+<summary>📷 Aperçu du `dbt_dag`</summary>
+
+![Aperçu du DAG 2](./assets/img/dbt_dag.png)
+
+
+
+### 3.3. **Flux global & dépendances**
+
+```text
+airbyte_dag                 dbt_dag
+    ├─ trigger_airbyte      ──▶  (TriggerDagRunOperator)
+    └─ airbyte_sensor           ──▶  dbt_dag.start
+```
+
+* **Étape 1** : `airbyte_dag` démarre à l’horaire planifié
+* **Étape 2** : une fois la sync réussie, Airflow déclenche `dbt_dag`
+* **Étape 3** : `dbt_dag` exécute définitivement toutes les transformations
+
+
 
 
 ## 4. 📦 dbt & Modélisation
