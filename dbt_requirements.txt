@@ -1,0 +1,6 @@
+astronomer-cosmos 
+dbt-core 
+dbt-postgres 
+dbt-snowflake 
+apache-airflow-providers-snowflake 
+apache-airflow-providers-airbyte
