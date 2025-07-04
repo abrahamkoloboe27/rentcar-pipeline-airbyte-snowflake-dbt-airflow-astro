@@ -4,7 +4,7 @@ import os
 from datetime import datetime, timedelta
 
 profile_config = ProfileConfig(
-    profile_name="rentcar",
+    profile_name="ride_share",
     target_name="dev",
     profile_mapping= SnowflakeUserPasswordProfileMapping(
     conn_id = 'rentcar_snowflake_conn',
