@@ -1,4 +1,4 @@
-rentcar:
+ride_share:
   outputs:
     dev:
       account: LHUNCRM-BS03889

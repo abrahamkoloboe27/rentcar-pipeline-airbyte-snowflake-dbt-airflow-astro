@@ -1,161 +1,161 @@
 version: 2
 models:
   - name: silver_countries
-    description: Cleaned and transformed country data
+    description: "Données pays nettoyées et transformées"
     columns:
       - name: country_key
-        description: Unique identifier for each country
+        description: "Identifiant unique de chaque pays"
       - name: country_name
-        description: Name of the country
+        description: "Nom du pays"
       - name: country_iso
-        description: ISO code of the country
+        description: "Code ISO du pays"
       - name: currency_code
-        description: Currency code used in the country
+        description: "Code de devise utilisé dans le pays"
       - name: locale
-        description: Locale setting for the country
+        description: "Paramètres régionaux du pays"
 
   - name: silver_drivers
-    description: Cleaned and transformed driver data
+    description: "Données conducteurs nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each driver
+        description: "Identifiant unique de chaque conducteur"
       - name: user_id
-        description: Associated user ID
+        description: "Identifiant utilisateur associé"
       - name: license_no
-        description: Driver's license number (cleaned and uppercase)
+        description: "Numéro de permis de conduire (nettoyé et en majuscules)"
       - name: status
-        description: Current driver status (available/on_trip/offline)
+        description: "Statut actuel du conducteur (disponible/en_course/hors_ligne)"
       - name: joined_dt
-        description: Date when driver joined the platform
+        description: "Date d'inscription du conducteur sur la plateforme"
 
   - name: silver_maintenance
-    description: Cleaned and transformed maintenance records
+    description: "Données maintenance nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each maintenance record
+        description: "Identifiant unique de chaque enregistrement de maintenance"
       - name: vehicleId
-        description: ID of the vehicle receiving maintenance
+        description: "Identifiant du véhicule en maintenance"
       - name: type
-        description: Type of maintenance performed
+        description: "Type de maintenance effectuée"
       - name: reported_dt
-        description: Date when maintenance was reported
+        description: "Date de déclaration de la maintenance"
       - name: started_dt
-        description: Date when maintenance work started
+        description: "Date de début des travaux de maintenance"
       - name: ended_dt
-        description: Date when maintenance work ended
+        description: "Date de fin des travaux de maintenance"
       - name: cost
-        description: Cost of maintenance work
+        description: "Coût des travaux de maintenance"
       - name: description
-        description: Detailed description of maintenance work
+        description: "Description détaillée des travaux"
       - name: laborHours
-        description: Number of hours spent on maintenance
+        description: "Nombre d'heures travaillées"
       - name: status
-        description: Status of maintenance (completed/ongoing)
+        description: "Statut de la maintenance (terminée/en cours)"
       - name: maintenance_hours
-        description: Total hours between start and end of maintenance
+        description: "Durée totale entre début et fin de la maintenance"
 
   - name: silver_ratings
-    description: Cleaned and transformed rating data
+    description: "Données d’évaluation nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each rating
+        description: "Identifiant unique de chaque évaluation"
       - name: tripId
-        description: ID of the associated trip
+        description: "Identifiant du trajet associé"
       - name: raterId
-        description: ID of the user giving the rating
+        description: "ID de l’utilisateur ayant donné la note"
       - name: rateeId
-        description: ID of the user receiving the rating
+        description: "ID de l’utilisateur ayant reçu la note"
       - name: stars
-        description: Rating score given (number of stars)
+        description: "Note attribuée (nombre d’étoiles)"
       - name: comment
-        description: Text comment accompanying the rating
+        description: "Commentaire textuel accompagnant la note"
       - name: created_dt
-        description: Timestamp when rating was created
+        description: "Horodatage de création de l’évaluation"
       - name: givenby
-        description: Type of user giving the rating
+        description: "Type d’utilisateur ayant donné la note"
       - name: rating_date
-        description: Date portion of when rating was created
-
+        description: "Date de création de l’évaluation"
 
   - name: silver_trips
-    description: Cleaned and transformed trip data
+    description: "Données trajets nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each trip
+        description: "Identifiant unique de chaque trajet"
       - name: serviceType
-        description: Type of service requested (ride/rental)
+        description: "Type de service demandé (trajet/location)"
       - name: userId
-        description: ID of user who requested the trip
+        description: "ID de l’utilisateur ayant demandé le trajet"
       - name: driverId
-        description: ID of driver assigned to the trip
+        description: "ID du conducteur affecté"
       - name: vehicleId
-        description: ID of vehicle used for the trip
+        description: "ID du véhicule utilisé"
       - name: requested_dt
-        description: Timestamp when trip was requested
+        description: "Horodatage de la demande de trajet"
       - name: accepted_dt
-        description: Timestamp when driver accepted the trip
+        description: "Horodatage de l’acceptation par le conducteur"
       - name: started_dt
-        description: Timestamp when trip started
+        description: "Horodatage du début du trajet"
       - name: ended_dt
-        description: Timestamp when trip ended
+        description: "Horodatage de la fin du trajet"
       - name: duration_min
-        description: Duration of trip in minutes
+        description: "Durée du trajet en minutes"
       - name: status
-        description: Current status of the trip
+        description: "Statut actuel du trajet"
       - name: amount
-        description: Cost of the trip
+        description: "Coût total du trajet"
       - name: currency
-        description: Currency of the trip cost
+        description: "Devise du coût du trajet"
       - name: rental_mins
-        description: Duration of rental in minutes (for rental trips)
+        description: "Durée de location en minutes (pour location)"
       - name: weight_kg
-        description: Package weight in kg (for delivery trips)
+        description: "Poids du colis en kg (pour livraison)"
       - name: trip_date
-        description: Date portion of when trip was requested
+        description: "Date de la demande de trajet"
       - name: trip_hour
-        description: Hour of day when trip was requested
+        description: "Heure de la demande de trajet"
       - name: service_type_clean
-        description: Standardized service type
+        description: "Type de service standardisé"
 
   - name: silver_users
-    description: Cleaned and transformed user data
+    description: "Données utilisateurs nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each user
+        description: "Identifiant unique de chaque utilisateur"
       - name: fullname
-        description: Full name of the user
+        description: "Nom complet de l’utilisateur"
       - name: email
-        description: User's email address (cleaned and lowercase)
+        description: "Adresse e-mail (nettoyée et en minuscules)"
       - name: phonenumber
-        description: User's phone number (cleaned of non-digits)
+        description: "Numéro de téléphone (nettoyé des caractères non numériques)"
       - name: cityid
-        description: ID of user's city
+        description: "ID de la ville de l’utilisateur"
       - name: signup_dt
-        description: Date when user signed up
+        description: "Date d’inscription de l’utilisateur"
       - name: countryid
-        description: ID of user's country
+        description: "ID du pays de l’utilisateur"
+
   - name: silver_vehicles
-    description: Cleaned and transformed vehicle data
+    description: "Données véhicules nettoyées et transformées"
     columns:
       - name: _id
-        description: Unique identifier for each vehicle
+        description: "Identifiant unique de chaque véhicule"
       - name: driverId
-        description: ID of driver assigned to the vehicle
+        description: "ID du conducteur associé"
       - name: type
-        description: Type of vehicle
+        description: "Type de véhicule"
       - name: brand_clean
-        description: Standardized vehicle brand name (uppercase)
+        description: "Marque standardisée (en majuscules)"
       - name: model_clean
-        description: Standardized vehicle model name (uppercase)
+        description: "Modèle standardisé (en majuscules)"
       - name: plate_clean
-        description: Standardized license plate number (uppercase)
+        description: "Plaque d’immatriculation standardisée (en majuscules)"
       - name: status_clean
-        description: Standardized vehicle status (idle/busy/maintenance/retired)
+        description: "Statut standardisé du véhicule (inactif/en_service/en_maintenance/retraité)"
       - name: year
-        description: Vehicle manufacturing year
+        description: "Année de fabrication"
       - name: mileageKm
-        description: Vehicle mileage in kilometers
+        description: "Kilométrage en kilomètres"
       - name: vehicle_age
-        description: Age of vehicle in years from manufacturing date
+        description: "Âge du véhicule en années"
       - name: acquisitionDate
-        description: Date when vehicle was acquired
+        description: "Date d’acquisition du véhicule"

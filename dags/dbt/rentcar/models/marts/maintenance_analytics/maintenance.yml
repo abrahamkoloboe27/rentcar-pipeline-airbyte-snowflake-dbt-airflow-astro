@@ -8,12 +8,21 @@ models:
     columns:
       - name: maintenance_key
         description: Identifiant unique de la maintenance.
+        tests:
+          - unique
       - name: date_key
         description: Date tronquée au jour du début de la maintenance.
+        tests:
+          - not_null
       - name: vehicle_key
         description: Identifiant du véhicule concerné.
+        tests:
+          - not_null
       - name: maintenance_type
         description: Type de maintenance effectuée.
+        tests:
+          - accepted_values : 
+              values: ["repair","routine_check","replacement"]
       - name: maintenance_start_date
         description: Date de début de la maintenance.
       - name: maintenance_end_date

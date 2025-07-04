@@ -194,7 +194,7 @@ def generate_data_all():
         st = acc + timedelta(seconds=random.randint(60,300))
         en = st + timedelta(seconds=random.randint(600,3600))
         amount = random.triangular(500,5000,2000)
-        currency = random.choice(["XOF","NGN","KES","GHS"])
+        currency = random.choice(["XOF","NGN","KES","GHS","XAF","CDF","SLL"])
         serviceType = random.choice(["ride","delivery","rental"])
         t = Trip(
             serviceType=serviceType,

@@ -1,3 +1,4 @@
+{% docs table_events %}
 # 🚀 dbt Mobility Analytics Platform
 
 Bienvenue dans **dbt Mobility Analytics**, une solution robuste d'analyse de données pour les entreprises de mobilité (services de moto, voiture, location et livraison) qui cherchent à obtenir des insights fiables et actionnables. 📊✨
@@ -95,3 +96,5 @@ Le pipeline se décompose en trois couches modulaires : _staging_, _silver_ et _
 
 
 *Améliorez votre prise de décision grâce à des données fiables et bien structurées !* 🚀📈
+
+{% enddocs %}

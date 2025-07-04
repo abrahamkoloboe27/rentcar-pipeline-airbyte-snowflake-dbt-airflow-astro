@@ -89,7 +89,7 @@ class Trip(BaseDocument):
     startedAt: Optional[datetime]
     endedAt: Optional[datetime]
     status: Literal["requested", "ongoing", "completed", "cancelled"]
-    currency: Literal["XOF", "NGN", "KES", "GHS"]
+    currency: Literal["XOF","NGN","KES","GHS","XAF","CDF","SLL"]
     amount: float
     fare: dict  # {"amount": float, "currency": str, "breakdown": {"base": float, "distance": float, "time": float}}
     serviceDetails: dict  # {"rentalDurationMins": int, "packageWeightKg": float}

@@ -2,200 +2,306 @@ version: 2
 
 models:
   - name: stg_cities
-    description: "staging table for cities"
+    description: "Table de staging pour les villes"
     config:
       materialized: table
       unique_key: city_id
       schema: stg
     columns:
       - name: city_id
-        description: "unique identifier for the city"
+        description: "Identifiant unique de la ville"
+        tests:
+          - unique
       - name: city_name
-        description: "name of the city"
+        description: "Nom de la ville"
+        tests:
+          - not_null
       - name: country_id
-        description: "unique identifier for the country"
+        description: "Identifiant unique du pays"
+        tests:
+          - not_null
       - name: latitude
-        description: "geographical latitude coordinate"
+        description: "Coordonnée géographique de latitude"
+        tests:
+          - not_null
       - name: longitude
-        description: "geographical longitude coordinate"
+        description: "Coordonnée géographique de longitude"
+        tests:
+          - not_null
 
   - name: stg_countries
-    description: "staging table for countries"
+    description: "Table de staging pour les pays"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the country"
+        description: "Identifiant unique du pays"
+        tests:
+          - unique
       - name: name
-        description: "name of the country"
+        description: "Nom du pays"
+        tests:
+          - not_null
       - name: isoCode
-        description: "ISO code of the country"
+        description: "Code ISO du pays"
+        tests:
+          - not_null
+          - unique
       - name: currency
-        description: "currency used in the country"
+        description: "Devise utilisée dans le pays"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["XOF","NGN","KES","GHS","XAF","CDF","SLL"]
       - name: locale
-        description: "locale settings for the country"
+        description: "Paramètres régionaux du pays"
   
   - name: stg_drivers
-    description: "staging table for drivers"
+    description: "Table de staging pour les conducteurs"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the driver"
+        description: "Identifiant unique du conducteur"
+        tests:
+          - unique
+          - not_null
       - name: userId
-        description: "user identifier associated with the driver"
+        description: "Identifiant utilisateur associé au conducteur"
+        tests:
+          - not_null
       - name: cityid
-        description: "identifier of the city where driver operates"
+        description: "Identifiant de la ville où opère le conducteur"
+        tests:
+          - not_null
       - name: joined_dt
-        description: "timestamp when driver joined the platform"
+        description: "Horodatage de l'inscription du conducteur sur la plateforme"
       - name: fullname
-        description: "full name of the driver"
+        description: "Nom complet du conducteur"
       - name: phonenumber
-        description: "contact phone number of the driver"
+        description: "Numéro de téléphone du conducteur"
       - name: licenseNumber
-        description: "driver's license number"
+        description: "Numéro de permis de conduire"
+        tests:
+          - not_null
       - name: status
-        description: "current status of the driver"
+        description: "Statut actuel du conducteur"
+        tests:
+          - accepted_values:
+              values: ["active","inactive","suspended","banned"]
 
   - name: stg_maintenance
-    description: "staging table for maintenance records"
+    description: "Table de staging pour les enregistrements de maintenance"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the maintenance record"
+        description: "Identifiant unique de l'enregistrement de maintenance"
+        tests:
+          - unique
+          - not_null
       - name: vehicleId
-        description: "identifier of the vehicle receiving maintenance"
+        description: "Identifiant du véhicule en maintenance"
+        tests:
+          - not_null
       - name: type
-        description: "type of maintenance performed"
+        description: "Type de maintenance effectuée"
+        tests:
+          - accepted_values:
+              values: ["repair","routine_check","replacement"]
       - name: description
-        description: "detailed description of the maintenance work"
+        description: "Description détaillée des travaux de maintenance"
       - name: reported_dt
-        description: "timestamp when maintenance was reported"
+        description: "Horodatage de la déclaration de maintenance"
       - name: started_dt
-        description: "timestamp when maintenance work started"
+        description: "Horodatage du début des travaux de maintenance"
       - name: ended_dt
-        description: "timestamp when maintenance work ended"
+        description: "Horodatage de la fin des travaux de maintenance"
       - name: cost
-        description: "cost of the maintenance work"
+        description: "Coût des travaux de maintenance"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              #max_value: 1000000
 
   - name: stg_ratings
-    description: "staging table for ratings"
+    description: "Table de staging pour les évaluations"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the rating"
+        description: "Identifiant unique de l'évaluation"
+        tests:
+          - unique
+          - not_null
       - name: tripid
-        description: "identifier of the associated trip"
+        description: "Identifiant du trajet associé"
+        tests:
+          - not_null
       - name: toid
-        description: "identifier of the rated entity"
+        description: "Identifiant de l'entité évaluée"
+        tests:
+          - not_null
       - name: stars
-        description: "rating score given"
+        description: "Note attribuée"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0.0
+              max_value: 5.0
       - name: comment
-        description: "text comment provided with rating"
+        description: "Commentaire textuel de l'évaluation"
       - name: givenby
-        description: "name of person who gave the rating"
+        description: "Nom de la personne ayant attribué l'évaluation"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["user","driver"]
       - name: givenbyid
-        description: "identifier of person who gave the rating"
+        description: "Identifiant de la personne ayant attribué l'évaluation"
       - name: totype
-        description: "type of entity being rated"
+        description: "Type d'entité évaluée"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["user","driver"]
       - name: created_dt
-        description: "timestamp when rating was created"
+        description: "Horodatage de création de l'évaluation"
 
   - name: stg_trips
-    description: "staging table for trips"
+    description: "Table de staging pour les trajets"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the trip"
+        description: "Identifiant unique du trajet"
+        tests:
+          - unique
+          - not_null
       - name: serviceType
-        description: "type of service requested"
+        description: "Type de service demandé"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["ride","delivery","rental"]
       - name: userId
-        description: "identifier of the user who requested the trip"
+        description: "Identifiant de l'utilisateur ayant demandé le trajet"
+        tests:
+          - not_null
       - name: driverId
-        description: "identifier of the driver assigned to the trip"
+        description: "Identifiant du conducteur affecté au trajet"
+        tests:
+          - not_null
       - name: vehicleId
-        description: "identifier of the vehicle used for the trip"
+        description: "Identifiant du véhicule utilisé pour le trajet"
+        tests:
+          - not_null
       - name: origin
-        description: "starting location of the trip"
+        description: "Point de départ du trajet"
+        tests:
+          - not_null
       - name: destination
-        description: "ending location of the trip"
+        description: "Destination du trajet"
+        tests:
+          - not_null
       - name: requested_dt
-        description: "timestamp when trip was requested"
+        description: "Horodatage de la demande de trajet"
       - name: accepted_dt
-        description: "timestamp when trip was accepted by driver"
+        description: "Horodatage de l'acceptation du trajet par le conducteur"
       - name: started_dt
-        description: "timestamp when trip started"
+        description: "Horodatage du début du trajet"
       - name: ended_dt
-        description: "timestamp when trip ended"
+        description: "Horodatage de la fin du trajet"
       - name: status
-        description: "current status of the trip"
+        description: "Statut actuel du trajet"
+        tests: 
+          - not_null
+          - accepted_values:
+              values: ["requested", "ongoing", "completed", "cancelled"]
       - name: amount
-        description: "total amount charged for the trip"
+        description: "Montant total facturé pour le trajet"
+        tests:
+          - not_null
+          #- numeric
+          - dbt_utils.accepted_range:
+              min_value: 0.0
+              max_value: 1000000
       - name: fare
-        description: "base fare for the trip"
+        description: "Tarif de base du trajet"
+        tests:
+          - not_null
+          # #- numeric
+          # - dbt_utils.expression_is_true:
+          #       expression: >
+          #           fare >= 0
+          #           AND fare <= 1000000
+
       - name: serviceDetails
-        description: "additional details about the service"
+        description: "Détails supplémentaires sur le service"
       - name: currency
-        description: "currency used for payment"
+        description: "Devise utilisée pour le paiement"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["XOF","NGN","KES","GHS","XAF","CDF","SLL"]
 
   - name: stg_users
-    description: "staging table for users"
+    description: "Table de staging pour les utilisateurs"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the user"
+        description: "Identifiant unique de l'utilisateur"
       - name: fullname
-        description: "full name of the user"
+        description: "Nom complet de l'utilisateur"
       - name: email
-        description: "email address of the user"
+        description: "Adresse e-mail de l'utilisateur"
       - name: phonenumber
-        description: "contact phone number of the user"
+        description: "Numéro de téléphone de l'utilisateur"
       - name: cityid
-        description: "identifier of the city where user is located"
+        description: "Identifiant de la ville où se trouve l'utilisateur"
       - name: signup_dt
-        description: "timestamp when user registered"
+        description: "Horodatage de l'inscription de l'utilisateur"
       - name: countryid
-        description: "identifier of the user's country"
+        description: "Identifiant du pays de l'utilisateur"
+
   - name: stg_vehicles
-    description: "staging table for vehicles"
+    description: "Table de staging pour les véhicules"
     config:
       materialized: table
       unique_key: _id
       schema: stg
     columns:
       - name: _id
-        description: "unique identifier for the vehicle"
+        description: "Identifiant unique du véhicule"
       - name: driverId
-        description: "identifier of the driver assigned to the vehicle"
+        description: "Identifiant du conducteur affecté au véhicule"
       - name: brand
-        description: "brand/manufacturer of the vehicle"
+        description: "Marque/fabricant du véhicule"
       - name: model
-        description: "model name of the vehicle"
+        description: "Modèle du véhicule"
       - name: licenseplate
-        description: "license plate number of the vehicle"
+        description: "Numéro de plaque d'immatriculation du véhicule"
       - name: mileagekm
-        description: "total mileage of the vehicle in kilometers"
+        description: "Kilométrage total du véhicule en kilomètres"
       - name: status
-        description: "current status of the vehicle"
+        description: "Statut actuel du véhicule"
       - name: year
-        description: "manufacturing year of the vehicle"
+        description: "Année de fabrication du véhicule"
       - name: type
-        description: "type/category of the vehicle"
+        description: "Type/catégorie du véhicule"
       - name: acquisitiondate
-        description: "date when the vehicle was acquired"
+        description: "Date d'acquisition du véhicule"

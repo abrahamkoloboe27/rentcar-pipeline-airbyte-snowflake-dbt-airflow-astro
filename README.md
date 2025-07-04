@@ -94,6 +94,7 @@ Nous orchestrons le pipeline avec **deux DAGs distincts** dans Airflow :
 
 <summary>📷 Aperçu du `airbyte_dag`</summary>
 
+
 ![Aperçu du DAG 1](./assets/img/airbyte_dag.png)
 
 
@@ -115,6 +116,8 @@ Nous orchestrons le pipeline avec **deux DAGs distincts** dans Airflow :
 
 
 <summary>📷 Aperçu du `dbt_dag`</summary>
+
+
 
 ![Aperçu du DAG 2](./assets/img/dbt_dag.png)
 
