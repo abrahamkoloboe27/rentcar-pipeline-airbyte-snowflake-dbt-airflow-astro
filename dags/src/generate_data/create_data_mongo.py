@@ -123,7 +123,7 @@ def generate_data_all():
     users = []
     user_ids = []
     now = datetime.utcnow() + timedelta(days=90)
-    start = now - timedelta(days=4*365)
+    start = now - timedelta(days=2*365)
     for _ in range(NB_USERS):
         iso = random.choice(list(iso_map.keys()))
         country_id = iso_map[iso]
