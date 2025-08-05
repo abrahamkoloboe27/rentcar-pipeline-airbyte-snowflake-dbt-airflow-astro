@@ -27,9 +27,9 @@ BATCH_SIZE = int(os.getenv("BATCH_SIZE", 1000))
 NB_COUNTRIES = int(os.getenv("NB_COUNTRIES", 5))
 NB_CITIES = int(os.getenv("NB_CITIES", NB_COUNTRIES*10))
 NB_USERS = int(os.getenv("NB_USERS", 100000))
-NB_DRIVERS = int(os.getenv("NB_DRIVERS", 30000))
+NB_DRIVERS = int(os.getenv("NB_DRIVERS", 15000))
 NB_VEHICLES = int(os.getenv("NB_VEHICLES", 30000))
-NB_TRIPS = int(os.getenv("NB_TRIPS", 600000))
+NB_TRIPS = int(os.getenv("NB_TRIPS", 605000))
 NB_MAINTENANCE = int(os.getenv("NB_MAINTENANCE", 10000))
 
 # -------------------- LOGGING SETUP --------------------
@@ -211,8 +211,8 @@ def generate_data_all():
     # Trips
     trips = []
     now = datetime.utcnow() + timedelta(days=60)
-    start = now - timedelta(days=3*365)
-    global_start = now - timedelta(days=3*365)
+    start = now - timedelta(days=2*365)
+    global_start = now - timedelta(days=2*365)
 
     for _ in range(NB_TRIPS):
         u_id = random.choice(user_ids)

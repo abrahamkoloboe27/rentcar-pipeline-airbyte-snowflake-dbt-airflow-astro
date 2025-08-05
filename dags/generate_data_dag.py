@@ -17,7 +17,6 @@ from datetime import timedelta, datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-
 default_args = {
     'owner': 'abraham',
     'depends_on_past': False,
