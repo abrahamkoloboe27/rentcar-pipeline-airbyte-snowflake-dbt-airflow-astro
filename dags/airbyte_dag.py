@@ -47,6 +47,10 @@ with DAG(
         timeout=60*60*24
     )
     
+    
+    
+    
+    
     trigger_dbt = TriggerDagRunOperator(
         task_id='trigger_dbt_dag',
         trigger_dag_id='dbt_rentcar',

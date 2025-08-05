@@ -29,8 +29,8 @@ NB_CITIES = int(os.getenv("NB_CITIES", NB_COUNTRIES*10))
 NB_USERS = int(os.getenv("NB_USERS", 100000))
 NB_DRIVERS = int(os.getenv("NB_DRIVERS", 30000))
 NB_VEHICLES = int(os.getenv("NB_VEHICLES", 30000))
-NB_TRIPS = int(os.getenv("NB_TRIPS", 500000))
-NB_MAINTENANCE = int(os.getenv("NB_MAINTENANCE", 100000))
+NB_TRIPS = int(os.getenv("NB_TRIPS", 600000))
+NB_MAINTENANCE = int(os.getenv("NB_MAINTENANCE", 10000))
 
 # -------------------- LOGGING SETUP --------------------
 logging.basicConfig(
@@ -143,7 +143,14 @@ def generate_data_all():
     # Drivers
     # Générer les drivers à partir des users existants, en copiant tous les champs obligatoires
     drivers = []
-    driver_user_docs = list(db.users.find({}, {"_id":1, "fullName":1, "email":1, "phoneNumber":1, "registrationDate":1, "countryId":1, "cityId":1}))
+    driver_user_docs = list(db.users.find(
+        {}, 
+                            {"_id":1, 
+                                "fullName":1, "email":1, "phoneNumber":1,
+                                "registrationDate":1, "countryId":1, "cityId":1
+                            }
+                            )
+                    )
     random.shuffle(driver_user_docs)
     # Limite au nombre demandé
     for user_doc in driver_user_docs[:NB_DRIVERS]:
@@ -181,18 +188,49 @@ def generate_data_all():
     batch_insert("vehicles", vehicles)
     vehicle_ids = [doc["_id"] for doc in db.vehicles.find({}, {"_id":1})]
 
+
+    # 1. user_id -> registrationDate
+    user_reg = {
+        doc["_id"]: doc["registrationDate"]
+        for doc in db.users.find({}, {"_id":1, "registrationDate":1})
+    }
+
+    # 2. driver_id -> registrationDate
+    driver_reg = {
+        doc["_id"]: doc["registrationDate"]
+        for doc in db.drivers.find({}, {"_id":1, "registrationDate":1})
+    }
+
+    # 3. vehicle_id -> acquisitionDate
+    vehicle_reg = {
+        doc["_id"]: doc["acquisitionDate"]
+        for doc in db.vehicles.find({}, {"_id":1, "acquisitionDate":1})
+    }
+
+
     # Trips
     trips = []
     now = datetime.utcnow() + timedelta(days=60)
-    start = now - timedelta(days=4*365)
+    start = now - timedelta(days=3*365)
     for _ in range(NB_TRIPS):
         u_id = random.choice(user_ids)
         d_id = random.choice(driver_ids)
         v_id = random.choice(vehicle_ids)
-        req = random_datetime(start, now)
+
+        # date minimale = max(start global, user, driver, véhicule)
+        earliest = max(
+            global_start,
+            user_reg[u_id],
+            driver_reg[d_id],
+            vehicle_reg[v_id]
+        )
+
+        # on génère requestedAt après earliest
+        req = random_datetime(earliest, now + timedelta(days=60))
         acc = req + timedelta(seconds=random.randint(60,600))
-        st = acc + timedelta(seconds=random.randint(60,300))
-        en = st + timedelta(seconds=random.randint(600,3600))
+        st  = acc + timedelta(seconds=random.randint(60,300))
+        en  = st + timedelta(seconds=random.randint(600,3600))
+        
         amount = random.triangular(500,5000,2000)
         currency = random.choice(["XOF","NGN","KES","GHS","XAF","CDF","SLL"])
         serviceType = random.choice(["ride","delivery","rental"])
