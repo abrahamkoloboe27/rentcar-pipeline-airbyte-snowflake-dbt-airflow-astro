@@ -212,6 +212,8 @@ def generate_data_all():
     trips = []
     now = datetime.utcnow() + timedelta(days=60)
     start = now - timedelta(days=3*365)
+    global_start = now - timedelta(days=3*365)
+
     for _ in range(NB_TRIPS):
         u_id = random.choice(user_ids)
         d_id = random.choice(driver_ids)
