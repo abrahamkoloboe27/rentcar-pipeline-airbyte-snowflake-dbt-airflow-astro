@@ -291,7 +291,10 @@ def generate_data_all():
             toId=trip_doc["userId"],
             stars=random.randint(1,5),
             comment=fake.sentence(nb_words=10),
-            createdAt=fake.date_time_between(start_date="-5y", end_date="+2M", tzinfo=timezone.utc)
+            createdAt=random_datetime(
+                trip_doc["endedAt"],
+                trip_doc["endedAt"] + timedelta(seconds=200)
+                )
         ))
     batch_insert("ratings", ratings)
 
