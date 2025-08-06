@@ -87,13 +87,13 @@ def generate_countries() -> List[Country]:
 # -------------------- MAIN SEED --------------------
 def generate_data_all():
     # Drop existing
-    for col in ["countries","users","drivers","vehicles","trips","ratings","maintenance"]:
+    for col in ["users","drivers","vehicles","trips","ratings","maintenance"]:
         db.drop_collection(col)
         logger.debug(f"Dropped {col}")
 
     # Countries
     countries = generate_countries()
-    batch_insert("countries", countries)
+    #batch_insert("countries", countries)
     iso_map = {c.isoCode: cid["_id"] for c, cid in zip(countries, db.countries.find({}, {"_id": 1, "isoCode": 1}))}
 
     # Cities (from cities_data.json)
@@ -294,7 +294,7 @@ def generate_data_all():
             createdAt=random_datetime(
                 trip_doc["endedAt"],
                 trip_doc["endedAt"] + timedelta(seconds=200)
-                )
+            )
         ))
     batch_insert("ratings", ratings)
 
