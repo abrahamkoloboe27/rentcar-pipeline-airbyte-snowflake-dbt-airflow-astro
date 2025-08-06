@@ -115,7 +115,7 @@ def generate_data_all():
                 latitude=city_info["lat"]
             )
             cities.append(city)
-        batch_insert("cities", cities)
+        #batch_insert("cities", cities)
         city_ids = [c["_id"] for c in db.cities.find({"countryId": country_id}, {"_id": 1})]
         city_map[iso] = city_ids
 
