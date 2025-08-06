@@ -264,7 +264,7 @@ def generate_data_all():
         )
         trips.append(t)
     batch_insert("trips", trips)
-    trip_docs = list(db.trips.find({}, {"_id":1, "userId":1, "driverId":1}))
+    trip_docs = list(db.trips.find({}, {"_id":1, "userId":1, "driverId":1,"endedAt":1}))
 
     # Ratings
     ratings = []
@@ -278,7 +278,10 @@ def generate_data_all():
             givenById=trip_doc["userId"],
             stars=random.randint(1,5),
             comment=fake.sentence(nb_words=10),
-            createdAt=fake.date_time_between(start_date="-5y", end_date="+2M", tzinfo=timezone.utc)
+            createdAt=random_datetime(
+                trip_doc["endedAt"],
+                trip_doc["endedAt"] + timedelta(seconds=200)
+                )
         ))
         ratings.append(Rating(
             tripId=trip_doc["_id"],
